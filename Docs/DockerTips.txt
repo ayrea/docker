@@ -12,6 +12,7 @@ docker container run -d --name [container-name] -p 25785:8080 aayre/gsd:test-ima
 # Push Docker container:
 docker image push aayre/gsd:test-image
 docker image push [username]/[repo]:[image-name]
+docker push aayre/gdal-ubuntu-asp.net:runtime
 
 # Stop container:
 docker container stop [container-name]
