@@ -37,7 +37,7 @@ docker container run -it --name test alpine sh
 docker pull ghcr.io/osgeo/gdal:alpine-small-latest
 docker container run -it --name gdal ghcr.io/osgeo/gdal:alpine-small-latest
 
-docker container run -it -v /c/Users/AndrewAyre/gdal-data:/mnt --name gdal ghcr.io/osgeo/gdal:alpine-small-latest
+docker container run -it -v /c/Users/username/gdal-data:/mnt --name gdal ghcr.io/osgeo/gdal:alpine-small-latest
 
 docker container run -d --name [container-name] -p 25785:7183 testapp:test-image
 
@@ -121,3 +121,36 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "TestDockerApi.dll"]
 
+
+
+#=================================================================================================================
+# docker-compose.yml
+# Does the same as running the following command line:
+# docker container run -d --name testapp -p 25785:7183 testapp:test-image
+
+version: '3.8'
+
+services:
+  testapp:
+    image: testapp:test-image
+    container_name: testapp
+    ports:
+      - "25785:7183"
+    restart: unless-stopped
+
+#=================================================================================================================
+# docker-compose.yml
+# Same as above, but with equivalant to -it (i = interactive mode), keeping standard input open. (t = allocate a pseudo-TTY).
+# Open an interactive shell inside the running container: docker exec -it testapp /bin/bash
+
+version: '3.8'
+
+services:
+  testapp:
+    image: testapp:test-image
+    container_name: testapp
+    ports:
+      - "25785:7183"
+    stdin_open: true    # Equivalent to -i (interactive)
+    tty: true           # Equivalent to -t (allocate a pseudo-TTY)
+    restart: unless-stopped
